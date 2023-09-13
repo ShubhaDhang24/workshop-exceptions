@@ -7,8 +7,10 @@ import se.lexicon.exceptions.workshop.domain.Gender;
 import se.lexicon.exceptions.workshop.domain.Person;
 import se.lexicon.exceptions.workshop.fileIO.CSVReader_Writer;
 
+//You should create one custom exception that will get thrown from the add
+// methods in NameService class and handled with a friendly error message
+// whenever you try to add a name that already exists.
 public class NameService {
-	
 
 	    private List<String>maleFirstNames;
 	    private List<String>femaleFirstNames;
@@ -61,7 +63,9 @@ public class NameService {
 	     * DuplicateNameException.
 	     * @param name
 	     */
-	    public void addFemaleFirstName(String name){
+	    public void addFemaleFirstName(String name) throws DuplicateNameException{
+			if(femaleFirstNames.equals(name))throw new DuplicateNameException("Name already exists");
+
 	    	femaleFirstNames.add(name);
 	    	CSVReader_Writer.saveFemaleNames(femaleFirstNames);
 	    		
@@ -73,10 +77,14 @@ public class NameService {
 	     * DuplicateNameException.
 	     * @param name
 	     */
-	    public void addMaleFirstName(String name){
-	    	maleFirstNames.add(name);
-	        CSVReader_Writer.saveMaleNames(maleFirstNames);
-	    }
+	    public void addMaleFirstName(String name) throws DuplicateNameException{
+				if (maleFirstNames.contains(name)) throw new DuplicateNameException("Name already exist");
+					maleFirstNames.add(name);
+				CSVReader_Writer.saveMaleNames(maleFirstNames);
+
+
+			}
+
 
 	    /**
 	     * Here you need to check if List<String> lastNames already contains the name
@@ -84,7 +92,8 @@ public class NameService {
 	     * DuplicateNameException.
 	     * @param lastName
 	     */
-	    public void addLastName(String lastName){
+	    public void addLastName(String lastName) throws DuplicateNameException{
+			if(lastName.equals(lastName))throw new DuplicateNameException("Last name already exists");
 	    	lastNames.add(lastName);
 	        CSVReader_Writer.saveLastNames(lastNames);
 	    }

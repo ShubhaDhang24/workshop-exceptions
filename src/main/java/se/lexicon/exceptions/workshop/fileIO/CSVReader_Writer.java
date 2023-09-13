@@ -39,10 +39,16 @@ public class CSVReader_Writer {
             e.getStackTrace();
         }
         finally {
-            reader.close();
+            try {
+                if (reader != null) {
+                    reader.close();
+
+                }
+            }
+            catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
-
-
         return names;
     }
 
@@ -55,11 +61,19 @@ public class CSVReader_Writer {
     public static List<String> getFemaleFirstNames() {
 
         List<String> names = null;
-
-        BufferedReader reader = Files.newBufferedReader(Paths.get("firstname_female.txt"))
-        names = reader.lines()
-                .flatMap(line -> Stream.of(line.split(",")))
-                .collect(Collectors.toList());
+        try {
+            BufferedReader reader = Files.newBufferedReader(Paths.get("firstname_female.txt"));
+            names = reader.lines()
+                    .flatMap(line -> Stream.of(line.split(",")))
+                    .collect(Collectors.toList());
+        }
+        catch (FileNotFoundException e){
+            e.getStackTrace();
+        }
+        catch (IOException e)
+        {
+            e.getStackTrace();
+        }
 
         return names;
     }
@@ -84,38 +98,62 @@ public class CSVReader_Writer {
                     .flatMap(line -> Stream.of(line.split(",")))
                     .collect(Collectors.toList());
 
-        } finally {
-            if (reader != null) {
-                reader.close();
+        }
+        finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
             }
+            catch(IOException e)
+            {e.getStackTrace();}
+
         }
         return names;
     }
 
 
     public static void saveLastNames(List<String> lastNames) {
-        BufferedWriter writer = Files.newBufferedWriter(Paths.get("lastnames.txt"));
-        for (String toWrite : lastNames) {
-            writer.append(toWrite + ",");
+        try {
+            BufferedWriter writer = Files.newBufferedWriter(Paths.get("lastnames.txt"));
+            for (String toWrite : lastNames) {
+                writer.append(toWrite + ",");
+            }
+            writer.flush();
         }
-        writer.flush();
+        catch(IOException e) {
+            e.getStackTrace();
+        }
     }
 
+
     public static void saveFemaleNames(List<String> femaleNames) {
-        BufferedWriter writer = Files.newBufferedWriter(Paths.get("firstname_female.txt"));
-        for (String toWrite : femaleNames) {
-            writer.append(toWrite + ",");
+        try {
+            BufferedWriter writer = Files.newBufferedWriter(Paths.get("firstname_female.txt"));
+            for (String toWrite : femaleNames) {
+                writer.append(toWrite + ",");
+            }
+            writer.flush();
         }
-        writer.flush();
+        catch (IOException e)
+        {
+            e.getStackTrace();
+        }
     }
 
 
     public static void saveMaleNames(List<String> maleNames) {
-        BufferedWriter writer = Files.newBufferedWriter(Paths.get("firstname_males.txt"));
-        for (String toWrite : maleNames) {
-            writer.append(toWrite + ",");
+        try {
+            BufferedWriter writer = Files.newBufferedWriter(Paths.get("firstname_males.txt"));
+            for (String toWrite : maleNames) {
+                writer.append(toWrite + ",");
+            }
+            writer.flush();
         }
-        writer.flush();
+        catch(IOException e)
+        {
+            e.getStackTrace();
+        }
     }
 
 
