@@ -31,6 +31,7 @@ public class Main {
         System.out.println(test);
         try {
             nameService.addFemaleFirstName("Shubha");
+            nameService.addLastName("Dhang");
         }
         catch (DuplicateNameException d)
         {
